@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody _rigid;
 
-
+    public static int SCORE = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,5 +39,14 @@ public class Player : MonoBehaviour
 
             balaScript.targetVector = transform.right;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision){
+
+        if(collision.gameObject.tag == "Enemy"){
+            SCORE = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    
     }
 }
