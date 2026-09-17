@@ -76,10 +76,12 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity);
+            GameObject bullet = PoolManager.Instance.GetBullet();
+
+            bullet.transform.position = gun.transform.position;
+            bullet.transform.rotation = Quaternion.identity;
 
             Bullet balaScript = bullet.GetComponent<Bullet>();
-
             balaScript.targetVector = transform.right;
         }
     }

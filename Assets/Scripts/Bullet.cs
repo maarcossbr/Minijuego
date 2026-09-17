@@ -9,9 +9,20 @@ public class Bullet : MonoBehaviour
     public Vector3 targetVector;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void OnEnable()
     {
-        Destroy(gameObject, maxLifeTime);
+        CancelInvoke();
+        Invoke(nameof(VolverAlPool), maxLifeTime);
+    }
+
+    void OnDisable()
+    {
+        CancelInvoke();
+    }
+
+    void VolverAlPool()
+    {
+        PoolManager.Instance.ReturnBullet(gameObject);
     }
 
     // Update is called once per frame
@@ -20,22 +31,31 @@ public class Bullet : MonoBehaviour
         transform.Translate(speed * targetVector * Time.deltaTime);
     }
 
-    private void OnCollisionEnter(Collision collision){
+    private void OnCollisionEnter(Collision collision)
+    {
 
-        if(collision.gameObject.tag == "Enemy"){
+        if (collision.gameObject.tag == "Enemy")
+        {
             IncreaseScore();
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            Asteroid asteroid = collision.gameObject.GetComponent<Asteroid>();
+
+            if (asteroid != null)
+            {
+                asteroid.RecibirDisparo(-targetVector);
+                PoolManager.Instance.ReturnBullet(gameObject);
+            }
+
         }
-    
     }
 
-    private void IncreaseScore(){
+    private void IncreaseScore()
+    {
         Player.SCORE++;
         UpdateScoreText();
     }
 
-    private void UpdateScoreText(){
+    private void UpdateScoreText()
+    {
         GameObject go = GameObject.FindGameObjectWithTag("UI");
         go.GetComponent<Text>().text = "Puntos: " + Player.SCORE;
     }
