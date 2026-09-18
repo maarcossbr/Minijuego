@@ -38,14 +38,12 @@ public class Asteroid : MonoBehaviour
 
     public void RecibirDisparo(Vector3 direccionBala)
     {
-        // Si ya es pequeño, simplemente desaparece
         if (esFragmento)
         {
             VolverAlPool();
             return;
         }
 
-        // Si es grande, crea dos pequeños
         CrearFragmento(direccionBala, anguloSeparacion);
         CrearFragmento(direccionBala, -anguloSeparacion);
 
@@ -59,19 +57,16 @@ public class Asteroid : MonoBehaviour
         mini.transform.position = transform.position;
         mini.transform.rotation = Quaternion.identity;
 
-        // Lo hacemos más pequeño
         mini.transform.localScale = transform.localScale * escalaFragmento;
 
-        // Marcamos que ya es un fragmento
         Asteroid asteroid = mini.GetComponent<Asteroid>();
         asteroid.esFragmento = true;
 
-        // Dirección de salida
         Vector3 direccion = Quaternion.Euler(0, 0, angulo) * direccionBala.normalized;
 
-        Rigidbody rb = mini.GetComponent<Rigidbody>();
+        Rigidbody rbMini = mini.GetComponent<Rigidbody>();
 
-        rb.linearVelocity = direccion * velocidadFragmento;
+        rbMini.linearVelocity = direccion * velocidadFragmento;
     }
 
     private void OnCollisionEnter(Collision collision)
