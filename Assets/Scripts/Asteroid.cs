@@ -66,6 +66,7 @@ public class Asteroid : MonoBehaviour
 
         Rigidbody rbMini = mini.GetComponent<Rigidbody>();
 
+        rbMini.mass = rb.mass * escalaFragmento;
         rbMini.linearVelocity = direccion * velocidadFragmento;
     }
 

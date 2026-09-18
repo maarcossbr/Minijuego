@@ -46,4 +46,9 @@ public class PauseMenu : MonoBehaviour
         Player.SCORE = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void Salir()
+    {
+        Application.Quit();
+    }
 }

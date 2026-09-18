@@ -96,6 +96,7 @@ public class EnemySpawner : MonoBehaviour
 
         Rigidbody rb = meteor.GetComponent<Rigidbody>();
 
+        rb.mass = tamRandom * 2f;
         rb.linearVelocity = direction * velocidadMeteor;
     }
 }
